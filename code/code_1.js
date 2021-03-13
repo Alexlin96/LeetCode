@@ -123,4 +123,131 @@ var reverseString = function(s) {
   return s
 };
 
+/*
+ * @title: 整数反转(7)
+ * @description: 
+ * 给你一个 32 位的有符号整数 x ，返回 x 中每位上的数字反转后的结果。
+ * 如果反转后整数超过 32 位的有符号整数的范围 [−231,  231 − 1] ，就返回 0。
+ * 假设环境不允许存储 64 位整数（有符号或无符号）。
+ * @keyword: 整数 反转
+ * @date: 2021-03-07
+ */
+var reverse = function(x) {
+  let numType = 1; // 0 负数 1 正数或者0
+  let maxval =  2147483647, minval = -2147483648;
+  x >=0 ? (numType = 1) : (numType = 0)
+  let absinputnum = Math.abs(x);
+  let len = String(absinputnum).length;
+  if(len == 1){
+    return numType ? absinputnum : -absinputnum;
+  }else{
+    let newarr = String(absinputnum).split('').reverse();
+    let returnArr = newarr.join(',').replace(/,/g,'');
+    return numType ? maxval< returnArr ? 0 : +returnArr: minval > -returnArr ? 0 : -returnArr;
+  }
+};
+
+/*
+ * @title: 字符串中的第一个唯一字符
+ * @description: 给定一个字符串，找到它的第一个不重复的字符，并返回它的索引。如果不存在，则返回 -1。
+ * @keyword: hash
+ * @date: 2021-03-08
+ */
+var firstUniqChar = function(s) {
+  let res = -1
+  let hash = {}
+  let arr = s.split('')
+  for (let i = 0; i < arr.length; i++) {
+    if (!hash[arr[i]]) {
+      hash[arr[i]] = {
+        index: i,
+        num: 1
+      }
+    } else {
+      hash[arr[i]].num += 1
+    }
+  }
+  for (let j in hash) {
+    if (hash[j].num === 1) {
+      res = hash[j].index
+      break
+    }
+  }
+  return res
+};
+
+/*
+ * @title: 有效的字母异位词 (242)
+ * @description: 给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词
+ * @keyword: hash 
+ * @date: 2021-03-09
+ */
+var isAnagram = function(s, t) {
+  let sArr = s.split('')
+  let tArr = t.split('')
+  let sHash = {}
+  let tHash = {}
+  let flag = true
+  if (s.length !== t.length) return false
+  for (let i = 0; i < sArr.length; i++) {
+    if (!sHash[sArr[i]]) {
+      sHash[sArr[i]] = 1
+    } else {
+      sHash[sArr[i]] += 1
+    }
+  }
+  for (let i = 0; i < tArr.length; i++) {
+    if (!tHash[tArr[i]]) {
+      tHash[tArr[i]] = 1
+    } else {
+      tHash[tArr[i]] += 1
+    }
+  }
+
+  for(let key in sHash) {
+    if (sHash[key] !== tHash[key]) {
+      flag = false
+      break
+    }
+  }
+  return flag
+};
+
+/*
+ * @title: 两个数组的交集 II(350)
+ * @description: 给定两个数组，编写一个函数来计算它们的交集
+ * @keyword: hash
+ * @date: 2021-03-10
+ * @param {*} nums1
+ * @param {*} nums2
+ */
+var intersect = function(nums1, nums2) {
+  let nums1_hash = {}
+  let nums2_hash = {}
+  for (let i = 0; i < nums1.length; i++) {
+    if (!nums1_hash[nums1[i]]) {
+      nums1_hash[nums1[i]] = 1
+    } else {
+      nums1_hash[nums1[i]] += 1
+    }  
+  }
+  for (let i = 0; i < nums2.length; i++) {
+    if (!nums2_hash[nums2[i]]) {
+      nums2_hash[nums2[i]] = 1
+    } else {
+      nums2_hash[nums2[i]] += 1
+    }  
+  }
+  const res = []
+  for (let j in nums1_hash) {
+    if (nums1_hash[j] > 0 && nums2_hash[j]) {
+      const minNum = nums1_hash[j] > nums2_hash[j] ? nums2_hash[j] : nums1_hash[j]
+      for (let k = 0; k < minNum; k++) {
+        res.push(j)  
+      }
+    }
+  }
+  return res
+};
+
 
