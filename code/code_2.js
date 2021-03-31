@@ -204,3 +204,52 @@ class MyHashMap {
     return this.hash.hasOwnProperty(key) ? this.hash[key] : -1
   }
 }
+
+/*
+ * @title: 两个数组的交集 II(349)
+ * @description: 给定两个数组，编写一个函数来计算它们的交集 输出结果中的每个元素一定是唯一的, 不考虑输出结果的顺序
+ * @keyword: hash
+ * @date: 2021-03-19
+ */
+var intersection = function(nums1, nums2) {
+  let nums1_hash = {}
+  let nums2_hash = {}
+  for (let i = 0; i < nums1.length; i++) {
+    if (!nums1_hash[nums1[i]]) {
+      nums1_hash[nums1[i]] = 1
+    } else {
+      nums1_hash[nums1[i]] += 1
+    }  
+  }
+  for (let i = 0; i < nums2.length; i++) {
+    if (!nums2_hash[nums2[i]]) {
+      nums2_hash[nums2[i]] = 1
+    } else {
+      nums2_hash[nums2[i]] += 1
+    }  
+  }
+  let res = []
+  for (let j in nums1_hash) {
+    if (nums1_hash[j] > 0 && nums2_hash[j]) {
+      const minNum = nums1_hash[j] > nums2_hash[j] ? nums2_hash[j] : nums1_hash[j]
+      for (let k = 0; k < minNum; k++) {
+        res.push(j)  
+      }
+    }
+  }
+  res = Array.from(new Set(res)) // 去重
+  return res
+};
+
+/*
+ * @title: 同构字符串 (205)
+ * @description: 给定两个字符串 s 和 t，判断它们是否是同构的
+ * @keyword: indexOf
+ * @date: 2021-03-20
+ */
+var isIsomorphic = function(s, t) {
+  for (let i = 0; i < s.length; i++) {
+    if (s.indexOf(s[i]) !== t.indexOf(t[i])) return false // 判断当前字母的第一次出现位置是否一样
+  }
+  return true
+};
