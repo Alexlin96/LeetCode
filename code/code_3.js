@@ -129,3 +129,89 @@ var topKFrequent = function(nums, k) {
   }
   return Object.entries(hash).sort((a, b) => b[1] - a[1]).slice(0, k).map(a => a[0]);
 };
+
+
+/*
+ * @title: 搜索插入位置 (35)
+ * @description: 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置
+ * @keyword: 二分查找
+ * @date: 2021-03-27
+ */
+var searchInsert = function(nums, target) {
+  let low = 0, high = nums.length - 1
+  while(low <= high) {
+    let middle = Math.round((low + high) / 2) // 中间下标
+    if (nums[middle] === target) {
+      return middle
+    } else if (nums[middle] > target) {
+      high = middle - 1
+    } else {
+      low = middle + 1
+    }
+  }
+  return [...nums, target].sort((a, b) => a - b).indexOf(target) // 排序找下标
+};
+
+
+/*
+ * @title: 合并区间 (56)
+ * @description: 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。请你合并所有重叠的区间，并返回一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间
+ * @keyword: sort 二维数组排序 
+ * @date: 2021-03-28
+ */
+var merge = function(intervals) {
+  if (intervals.length === 0) return []
+  intervals.sort((a, b) => a[0] - b[0]) // 排序 按照左端点升序排列
+  const res = [intervals[0]]
+  for (let i = 1; i < intervals.length; i++) {
+    if (intervals[i][0] <= res[res.length -1][1]) { // 比较是否在区间
+      res[res.length -1] = [res[res.length -1][0], Math.max(intervals[i][1], res[res.length -1][1])]
+    } else {
+      res.push(intervals[i])
+    }
+  }
+  return res
+};
+
+/*
+ * @title: 最长回文子串 (5)
+ * @description: 给一个字符串 s，找到 s 中最长的回文子串
+ * @keyword: 中心拓展法
+ * @date: 2021-03-29
+ */
+var longestPalindrome = function(s) {
+  if (s.length < 2) return s  // 长度小于2 返回本身
+  let start = 0, end = 0
+  let len = s.length
+  const cExpend = (left, right) => {
+    while(left >= 0 && right < len && s[left] === s[right]) {
+      left --;
+      right ++;
+    }
+    return right - left - 1 // 间隔数
+  }
+
+  for (let i = 0; i < len; i++) {
+    let len_1 = cExpend(i , i) // aba
+    let len_2 = cExpend(i , i+1) // aa
+    let maxLen = Math.max(len_1, len_2)
+    if (maxLen > end - start) {
+      start = i - Math.floor((maxLen - 1) / 2)
+      end = i + Math.floor(maxLen / 2)
+    }
+  }
+  return s.substr(start, end - start + 1)
+};
+
+/*
+ * @title: 翻转字符串里的单词 (151)
+ * @description: 给定一个字符串，逐个翻转字符串中的每个单词
+ * @keyword: 字符串数组转换 数组翻转
+ * @date: 2021-03-30
+ */
+var reverseWords = function(s) {
+  s = s.trim() // 去除空格
+  let arr = s.split(/\ +/) // 转换数组
+  arr = arr.reverse() // 反转
+  return arr.join(' ') // 转换字符串
+};
