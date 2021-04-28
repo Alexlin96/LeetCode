@@ -39,3 +39,42 @@ var wordPattern = function(pattern, s) {
 	}
 	return true;
 };
+
+/*
+ * @title: 重复 N 次的元素 (961)
+ * @description: 在大小为 2N 的数组 A 中有 N+1 个不同的元素，其中有一个元素重复了 N 次。返回重复了 N 次的那个元素
+ * @keyword: 排序 相邻元素比较
+ * @date: 2021-04-03
+ */
+var repeatedNTimes = function(A) {
+	A.sort((a, b) => a - b)
+	for (let i = 0; i < A.length - 1; i++) {
+		if (A[i] === A[i+1]) { // 相邻值等
+			return A[i]
+		}	
+	}
+};
+
+/*
+ * @title: 两数之和 II - 输入有序数组 (167)
+ * @description: 给定一个已按照 升序排列  的整数数组 numbers ，请你从数组中找出两个数满足相加之和等于目标数 target
+ * @keyword: 二分查找
+ * @date: 2021-04-04
+ */
+var twoSum = function(numbers, target) {
+	for (let i = 0; i < numbers.length; i++) {
+		let firstNumber = numbers[i] // 固定第一个数
+		let low = i + 1, high = numbers.length - 1
+		while(low <= high) { // 二分查找第二个数
+			let middle = Math.round((low + high) / 2) // 中间下标
+			if (numbers[middle] + firstNumber === target) {
+				return [i + 1, middle + 1]
+			} else if (numbers[middle] > target - firstNumber) { // 左半区
+				high = middle - 1
+			}  else { // 右半区
+				low = middle + 1
+			}
+		}
+	}
+	return []
+};
