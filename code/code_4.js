@@ -78,3 +78,77 @@ var twoSum = function(numbers, target) {
 	}
 	return []
 };
+
+/*
+ * @title:  二分查找 (704)
+ * @description: 给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。
+ * @keyword: 二分查找
+ * @date: 2021-04-05
+ */
+var search = function(nums, target) {
+	let low = 0, high = nums.length - 1
+	while(low <= high) {
+		let middle = Math.round((low + high) / 2) // 中间下标
+		if (nums[middle] === target) {
+			return middle
+		} else if (nums[middle] > target) { // 左半区
+			high = middle - 1
+		} else { // 右半区
+			low = middle + 1
+		}
+	}
+	return -1
+};
+
+/*
+ * @title:  寻找重复数 (287)
+ * @description: 给定一个包含 n + 1 个整数的数组 nums ，其数字都在 1 到 n 之间（包括 1 和 n），可知至少存在一个重复的整数。假设 nums 只有 一个重复的整数 ，找出 这个重复的数 。
+ * @keyword: 二分查找
+ * @date: 2021-04-06
+ */
+var findDuplicate = function(nums) {
+	const n = nums.length
+	let low = 1, high = n - 1, res = -1
+	while(low <= high) {
+		let middle = Math.round((low + high) / 2) // 中位数
+		let cnt = 0 
+		for (let i = 0; i < nums.length; i++) {
+			cnt += nums[i] <= middle
+		}
+		if (cnt <= middle) { // 在右半区
+			low = middle + 1
+		} else {
+			high = middle - 1 // 在左半区
+			res = middle // 记录当前中位数的值 可能是最终重复值
+		}
+	}
+	return res
+};
+
+/*
+	工作繁忙 2021-04-06-2021-07-13 暂停
+*/
+
+/*
+ * @title:  盛最多水的容器 (11)
+ * @description: 给你 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0) 。找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+ * @keyword: 双指针
+ * @date: 2021-07-14
+ */
+var maxArea = function(height) {
+	let max = 0 // 最多容量
+	for (let i = 0, j = height.length - 1; i < j;) { // 从两端往里遍历 直至重合
+		let minHeight = 0
+		if (height[i] > height[j]) { // 最小点在右
+			minHeight = height[j]
+			j--
+		} else { // 最小点在左
+			minHeight = height[i]
+			i++
+		}
+		const area = (j - i + 1) * minHeight
+		
+		max = Math.max(area, max) // 取最大值
+	}
+	return max
+};

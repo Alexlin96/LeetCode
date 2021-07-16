@@ -9,8 +9,10 @@ var removeDuplicates = function (nums) {
   for (let i = 1; i < nums.length; i++) {
     nums[j] !== nums[i] && (j++, (nums[j] = nums[i]));
   }
-  return j + 1;
+  return j + 1; // 长度
 };
+
+
 
 /*
  * @title: 买卖股票的最佳时机 II(122)
