@@ -152,3 +152,39 @@ var maxArea = function(height) {
 	}
 	return max
 };
+
+/*
+	工作繁忙 2021-07-15-2021-07-21 暂停
+*/
+
+/*
+ * @title:  有效的括号 (20)
+ * @description: 给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+	有效字符串需满足：
+	左括号必须用相同类型的右括号闭合。
+	左括号必须以正确的顺序闭合。
+ * @keyword: 栈
+ * @date: 2021-07-22
+ */
+var isValid = function(s) {
+	const arr = s.split('')
+	if (arr.length % 2 === 1) return
+	const left = '({['
+	const right = ')}]'
+	const map = {
+		'(': ')',
+		'{': '}',
+		'[': ']'
+	}
+	const stack = []
+	for (let i = 0; i < arr.length; i++) {
+		if (left.includes(arr[i])) { // 起始符合直接入栈
+			stack.push(arr[i])
+		} else if (right.includes(arr[i]) && map[stack[stack.length -1]] === arr[i]) { // 找到符合的闭合 出栈
+			stack.pop()
+		} else {
+			return false
+		}	
+	}
+	return !stack.length
+}
